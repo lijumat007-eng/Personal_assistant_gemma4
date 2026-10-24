@@ -1,0 +1,40 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Credentials, secrets, and private key files
+key.txt
+!key.example.txt
+aws_pass.txt
+*.key
+*.pem
+*.token
+.env
+.env.*
+*.pass
+
+# Databases, personal history, and backups
+*.db
+*.sqlite
+*.sqlite3
+jarvis_memory.db
+.jarvis-backups/
+notes/
+
+# Temporary and log files
+tmp*
+*.log
+desktop-companion/*.log
+
+# Desktop companion runtime, build artifacts, and local user data
+desktop-companion/runtime/
+desktop-companion/.user-data/
+desktop-companion/.user-data-test/
+desktop-companion/node_modules/
+desktop-companion/*.download
+
+# Node / IDE files
+node_modules/
+.vscode/
+.idea/

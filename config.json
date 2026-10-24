@@ -1,0 +1,10 @@
+{
+  "llm_provider": "ollama",
+  "gemini": {
+    "model_name": "gemini-2.5-flash"
+  },
+  "ollama": {
+    "model_name": "qwen2.5:1.5b",
+    "host": "http://localhost:11434"
+  }
+}

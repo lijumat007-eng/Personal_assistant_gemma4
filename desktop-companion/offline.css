@@ -1,0 +1,5 @@
+body { background: transparent; margin: 12px; font: 14px/1.6 "Segoe UI", sans-serif; color: #20252d; }
+main { background: #fafbfc; border: 1px solid #dce1e8; border-radius: 18px; padding: 24px; }
+h1 { font-size: 22px; margin: 0; }
+button { font: inherit; border: 1px solid #dce1e8; background: white; border-radius: 9px; padding: 8px 12px; cursor: pointer; margin-right: 8px; }
+button:focus-visible { outline: 2px solid #305fbb; }

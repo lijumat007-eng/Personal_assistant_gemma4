@@ -1,0 +1,16 @@
+# Dependencies for Jarvis Personal Assistant
+numpy
+fastapi
+uvicorn
+faster-whisper
+pyttsx3
+sounddevice
+openpyxl
+python-telegram-bot
+google-generativeai
+requests
+python-multipart
+langgraph
+langchain-core
+langchain-ollama
+langchain-google-genai

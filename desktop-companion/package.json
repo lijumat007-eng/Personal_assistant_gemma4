@@ -1,0 +1,9 @@
+{
+  "name": "jarvis-desktop-companion",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Optional Windows desktop shell for the existing Jarvis assistant",
+  "main": "main.cjs",
+  "scripts": { "start": "electron .", "test": "node --test ../tests/desktop_policy.cjs" },
+  "devDependencies": { "electron": "44.5.1" }
+}

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>Jarvis</title>
+    <link rel="stylesheet" href="style.css?v=12">
+    <link rel="stylesheet" href="desktop.css?v=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js" defer></script>
+    <script src="security.js?v=9" defer></script>
+    <script src="app.js?v=12" defer></script>
+</head>
+<body>
+    <div class="chat-app">
+        <header class="app-header">
+            <span class="brand">Jarvis</span>
+            <div class="menu-anchor">
+                <button id="menu-button" class="icon-button" aria-label="Open menu" aria-expanded="false" aria-controls="app-menu" title="Menu (Ctrl+K)">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
+                </button>
+                <nav id="app-menu" class="app-menu" aria-label="Jarvis tools" hidden>
+                    <button data-drawer="files">Files <span>Workspace & notes</span></button>
+                    <button data-drawer="settings">Settings <span>Appearance & assistant</span></button>
+                    <button id="voice-input-button">Voice input <span>Speak your message</span></button>
+                    <button id="robot-preview-button">Robot companion <span>Try the expressive character</span></button>
+                    <button data-drawer="reset">Reset conversation</button>
+                </nav>
+            </div>
+        </header>
+        <div class="workspace-layout">
+        <aside id="robot-stage" class="robot-stage" aria-label="Robot companion preview" hidden>
+            <div class="robot-heading"><div><span class="robot-eyebrow">Companion preview</span><h2>A little personality.</h2></div><button id="close-robot" class="icon-button" aria-label="Close robot preview">×</button></div>
+            <div id="robot-viewport" class="robot-viewport" aria-label="Animated expressive robot"></div>
+            <div class="robot-footer">
+                <p id="robot-status" role="status">Loading robot…</p>
+                <div id="desktop-controls" class="desktop-controls" hidden><button id="desktop-chat-toggle" class="secondary-button" aria-expanded="false">Chat</button><button id="desktop-stop-voice" class="text-button" hidden>Stop voice</button><button id="desktop-menu-button" class="icon-button" aria-label="Companion menu">⋯</button><button id="desktop-quit-button" class="icon-button" aria-label="Quit companion" title="Quit companion (Ctrl+Alt+Q)">×</button></div>
+                <div class="robot-actions"><button data-robot-animation="Wave" class="secondary-button" disabled>Wave</button><button data-robot-animation="Dance" class="secondary-button" disabled>Dance</button><button id="robot-voice-test" class="secondary-button" disabled>Test voice</button><button id="robot-stop-voice" class="text-button" hidden>Stop voice</button></div>
+                <details id="robot-options"><summary>Character controls</summary><div class="robot-options-body">
+                    <label for="robot-motion">Gesture</label><select id="robot-motion" disabled><option value="Idle">Idle</option><option>Wave</option><option>Dance</option><option>Yes</option><option>No</option><option>ThumbsUp</option><option>Jump</option><option>Walking</option><option>Running</option><option>Sitting</option><option>Standing</option></select>
+                    <label for="robot-expression">Expression</label><select id="robot-expression" disabled><option value="neutral">Neutral</option><option value="Surprised">Surprised</option><option value="Sad">Sad</option><option value="Angry">Angry</option></select>
+                    <label for="robot-color">Body colour</label><select id="robot-color" disabled><option value="original">Golden</option><option value="blue">Blue</option><option value="mint">Mint</option></select>
+                    <label class="switch-label"><span>Quiet idle (less motion)</span><input id="robot-quiet" type="checkbox"></label>
+                    <p class="muted">Speech uses your browser’s voice for this prototype. The animated mouth is a playback effect, not phoneme lip sync.</p>
+                    <p class="muted">Free CC0 character by Tomás Laulhé (Quaternius), with expressions by Don McCurdy.</p>
+                </div></details>
+            </div>
+        </aside>
+        <div class="chat-workspace">
+        <header id="desktop-chat-heading" class="desktop-chat-heading" hidden><span>Jarvis</span><button id="desktop-close-chat" class="icon-button" aria-label="Close chat panel">×</button></header>
+        <main id="chat-scroll" class="chat-scroll" aria-label="Conversation">
+            <div id="chat-history" class="chat-column" role="log" aria-live="polite" aria-relevant="additions" aria-label="Messages">
+                <div id="empty-state" class="empty-state"><h1>What’s on your mind?</h1><p>A little space to think, ask, and get things done.</p></div>
+            </div>
+        </main>
+        <footer class="composer-area">
+            <div id="working-status" class="working-status" role="status" hidden>Working…</div>
+            <form id="composer" class="composer">
+                <label class="sr-only" for="query-input">Message Jarvis</label>
+                <textarea id="query-input" rows="1" placeholder="Ask anything…" autocomplete="off"></textarea>
+                <div id="recording-controls" class="recording-controls" hidden>
+                    <span class="recording-label" role="status">Recording</span>
+                    <canvas id="visualizer-canvas" width="120" height="28" aria-hidden="true"></canvas>
+                    <button id="cancel-recording" type="button" class="text-button">Cancel</button>
+                    <button id="finish-recording" type="button" class="primary-button">Send voice</button>
+                </div>
+                <button id="send-btn" type="submit" class="send-button" aria-label="Send message" disabled>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m-6 6 6-6 6 6"/></svg>
+                </button>
+            </form>
+        </footer>
+        </div>
+        </div>
+    </div>
+    <dialog id="tool-drawer" class="tool-drawer" aria-labelledby="drawer-title">
+        <header class="drawer-header"><h2 id="drawer-title">Files</h2><button id="close-drawer" class="icon-button" aria-label="Close panel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></header>
+        <div class="drawer-body">
+            <p id="drawer-error" class="error-notice" role="alert" hidden></p>
+            <section id="files-view" hidden>
+                <div id="file-browser">
+                    <div class="section-heading"><h3>Workspace</h3><button id="change-workspace" class="text-button">Change</button></div>
+                    <p id="workspace-path" class="workspace-path">Loading…</p>
+                    <form id="workspace-form" class="inline-form" hidden>
+                        <label for="workspace-input">Folder path</label><input id="workspace-input" required placeholder="C:\Users\…\MyProject">
+                        <div class="button-row"><button class="primary-button" type="submit" data-mutation>Set workspace</button><button id="cancel-workspace" type="button" class="text-button">Cancel</button></div>
+                    </form>
+                    <div class="files-toolbar"><button id="new-file" class="secondary-button" data-mutation>New file</button><button id="new-folder" class="secondary-button" data-mutation>New folder</button><button id="refresh-files" class="text-button">Refresh</button></div>
+                    <label class="sr-only" for="explorer-search">Search files</label><input id="explorer-search" type="search" placeholder="Search files…">
+                    <div id="explorer-tree" class="explorer-tree" aria-label="Workspace files"></div>
+                </div>
+                <form id="create-form" class="inline-form" hidden>
+                    <button id="cancel-create" type="button" class="text-button back-button">← Back to files</button>
+                    <h3 id="create-title">New file</h3><label for="item-name">Name or relative path</label><input id="item-name" required>
+                    <div id="file-content-field"><label for="item-content">Content</label><textarea id="item-content" rows="8"></textarea></div>
+                    <button class="primary-button" type="submit" data-mutation>Create</button>
+                </form>
+                <div id="file-viewer" hidden>
+                    <button id="back-to-files" class="text-button back-button">← Back to files</button>
+                    <div class="section-heading"><h3 id="file-title"></h3><button id="delete-file" class="text-button danger" data-mutation>Delete</button></div>
+                    <pre id="file-body" class="file-body">Loading…</pre>
+                    <div id="delete-confirmation" class="confirmation" hidden><p>Delete this file?</p><div class="button-row"><button id="confirm-delete" class="primary-button danger-button" data-mutation>Delete file</button><button id="cancel-delete" class="text-button">Cancel</button></div></div>
+                </div>
+            </section>
+            <section id="reasoning-view" hidden>
+                <p class="muted">Choose how Jarvis thinks. You can change this later in Settings.</p>
+                <form id="reasoning-form" class="reasoning-form">
+                    <label for="provider-select">Reasoning engine</label>
+                    <select id="provider-select" data-mutation><option value="ollama">Local · Ollama</option><option value="gemini">Cloud · Gemini</option></select>
+                    <div id="local-reasoning-fields">
+                        <div class="section-heading"><label for="local-model-select">Installed Ollama models</label><button id="refresh-models" type="button" class="text-button">Refresh</button></div>
+                        <select id="local-model-select" data-mutation><option value="">Choose a model…</option></select>
+                        <p id="local-model-status" class="muted" role="status"></p>
+                        <p class="muted">Reasoning stays in Ollama. There is no automatic cloud fallback.</p>
+                    </div>
+                    <div id="cloud-reasoning-fields" hidden>
+                        <label for="cloud-model-input">Gemini model</label><input id="cloud-model-input" maxlength="200" placeholder="gemini-2.5-flash" data-mutation>
+                        <label for="cloud-key-input">Gemini API key</label><input id="cloud-key-input" type="password" autocomplete="off" spellcheck="false" placeholder="Enter your API key" data-mutation>
+                        <p id="cloud-key-status" class="muted"></p>
+                        <p class="muted">New keys are used only for this server session. Cloud sends prompts and tool results to Gemini. Credentials are checked when you send a message.</p>
+                    </div>
+                    <p id="reasoning-status" class="muted" role="status"></p>
+                    <div class="button-row"><button id="save-reasoning" type="submit" class="primary-button" data-mutation>Use selected model</button><button id="cancel-reasoning" type="button" class="text-button">Use current settings</button></div>
+                </form>
+            </section>
+            <section id="settings-view" hidden>
+                <h3>Appearance</h3>
+                <fieldset class="theme-options"><legend class="sr-only">Theme</legend>
+                    <label class="theme-choice"><input type="radio" name="theme" value="light"><span class="theme-swatch swatch-light"></span>Light</label>
+                    <label class="theme-choice"><input type="radio" name="theme" value="dark"><span class="theme-swatch swatch-dark"></span>Dark</label>
+                    <label class="theme-choice"><input type="radio" name="theme" value="warm"><span class="theme-swatch swatch-warm"></span>Warm</label>
+                </fieldset>
+                <div class="settings-section"><h3>Reasoning</h3><p id="active-provider-label" class="muted"></p><p class="model-info">Active model <span id="agent-model-name">Loading…</span></p><button class="secondary-button" data-drawer="reasoning" data-mutation>Choose Local or Cloud</button><p id="settings-lock" class="muted" hidden>Resolve the approval before changing the assistant.</p></div>
+                <div class="settings-section"><h3>Voice</h3><label class="switch-label" for="voice-output"><span>Read responses aloud</span><input id="voice-output" type="checkbox"></label></div>
+            </section>
+            <section id="reset-view" hidden><h3>Start fresh?</h3><p class="muted">This clears the conversation and resets the assistant’s memory.</p><div class="button-row"><button id="confirm-reset" class="primary-button" data-mutation>Reset conversation</button><button id="cancel-reset" class="text-button">Cancel</button></div></section>
+        </div>
+    </dialog>
+</body>
+</html>

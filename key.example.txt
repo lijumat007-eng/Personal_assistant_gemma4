@@ -1,0 +1,2 @@
+# Replace with your Google Gemini API key if using Cloud reasoning:
+# AIzaSyYourGeminiApiKeyHere

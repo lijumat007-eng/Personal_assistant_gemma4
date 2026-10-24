@@ -1,0 +1,32 @@
+/* Applied only inside the native host. Browser chat/preview keep their layout. */
+body.desktop-mode { background: transparent; overflow: hidden; }
+.desktop-mode .chat-app { padding: 8px; }
+.desktop-mode .app-header, .desktop-mode .robot-heading, .desktop-mode .robot-actions, .desktop-mode #robot-options { display: none; }
+.desktop-mode .workspace-layout { display: flex; }
+.desktop-mode .robot-stage { flex: 1; background: none; border: none; }
+.desktop-mode .robot-viewport { min-height: 0; cursor: default; }
+.desktop-mode .robot-viewport.robot-hover { cursor: grab; }
+.desktop-mode .robot-viewport.robot-dragging { cursor: grabbing; }
+.desktop-mode.desktop-character-controls #robot-options { display: block; }
+.desktop-mode.desktop-character-controls .robot-viewport { display: none; }
+.desktop-mode.desktop-character-controls .robot-footer { overflow-y: auto; margin: auto 0; }
+.desktop-mode.desktop-character-controls .robot-options-body { max-height: 280px; }
+.desktop-mode .robot-footer { padding: 0 8px 0; text-align: center; }
+.desktop-mode #robot-status { display: inline-block; max-width: 100%; padding: 4px 12px; margin: 0 0 6px; border: 1px solid var(--border); background: var(--surface); border-radius: 14px; font-size: 12px; }
+.desktop-mode .desktop-controls { display: flex; gap: 6px; align-items: center; justify-content: center; }
+.desktop-mode .desktop-controls .icon-button { background: var(--surface); border: 1px solid var(--border); font-size: 22px; height: 36px; width: 36px; }
+.desktop-mode .desktop-controls .secondary-button, .desktop-mode #desktop-stop-voice { background: var(--surface); }
+.desktop-mode .chat-workspace { display: none; }
+.desktop-mode.desktop-panel-open .workspace-layout { display: grid; grid-template-columns: minmax(190px, .4fr) minmax(280px, .6fr); gap: 8px; }
+.desktop-mode.desktop-panel-open .chat-workspace { display: flex; background: var(--bg); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+.desktop-mode .desktop-chat-heading { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px 4px; font-weight: 600; }
+.desktop-mode #desktop-close-chat { font-size: 24px; }
+.desktop-mode .chat-column { width: calc(100% - 32px); padding: 20px 0; }
+.desktop-mode .empty-state h1 { font-size: 24px; }
+.desktop-mode .composer-area { width: calc(100% - 24px); padding: 6px 0 12px; }
+.desktop-mode .tool-drawer { max-height: calc(100dvh - 16px); margin-top: 8px; border-radius: 20px; }
+@media (max-width: 560px) {
+    .desktop-mode.desktop-panel-open .workspace-layout { display: flex; }
+    .desktop-mode.desktop-panel-open .robot-stage { display: none; }
+    .desktop-mode.desktop-panel-open .chat-workspace { flex: 1; }
+}
